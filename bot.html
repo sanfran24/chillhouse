@@ -3,7 +3,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Giga Chad Bot - Transform Your Photo</title>
+    <title>Chillhouse Bot - Transform Your Photo</title>
     <link rel="icon" href="data:image/svg+xml,<svg xmlns=%22http://www.w3.org/2000/svg%22 viewBox=%220 0 16 16%22><text y=%2214%22 font-size=%2216%22>💪</text></svg>">
     <style>
         :root {
@@ -322,6 +322,7 @@
             .x-banner { font-size: 0.9rem; }
         }
     </style>
+    <script src="./config.js"></script>
     </head>
 <body class="theme-binance">
     <div class="theme-switcher" style="position:fixed;top:16px;right:16px;z-index:2100;">
@@ -337,8 +338,8 @@
     <div class="container">
         <div class="x-banner">Post your Gigachad here: <a href="https://x.com/i/communities/1975699659634188340/" target="_blank" rel="noopener">X Community</a></div>
         <div class="header">
-            <h1>Giga Chad Bot</h1>
-            <p>Transform any photo into a Gigachad masterpiece</p>
+            <h1>Chillhouse Bot</h1>
+            <p>Transform any photo into a Chillhouse masterpiece</p>
         </div>
         
         <a href="index.html" class="back-link">← Back to Quotes</a>
@@ -488,10 +489,10 @@
                         }
 
                         try {
-                            console.log('Sending request to:', 'https://gigachad-mess.onrender.com/transform');
+                            console.log('Sending request to:', `${window.CHILLHOUSE_API_BASE}/transform`);
                             console.log('FormData contents:', formData);
                             
-                            const response = await fetch('https://gigachad-mess.onrender.com/transform', {
+                            const response = await fetch(`${window.CHILLHOUSE_API_BASE}/transform`, {
                                 method: 'POST',
                                 body: formData
                             });
@@ -506,7 +507,7 @@
                                 // Display result
                                 const resultImage = document.getElementById('resultImage');
                                 if (resultImage) {
-                                    const imageUrl = `https://gigachad-mess.onrender.com/result/${result.image_id}`;
+                                    const imageUrl = `${window.CHILLHOUSE_API_BASE}/result/${result.image_id}`;
                                     console.log('Setting image URL:', imageUrl);
                                     console.log('Image ID from server:', result.image_id);
                                     resultImage.src = imageUrl;

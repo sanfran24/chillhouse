@@ -3,7 +3,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Stonks Meme Generator</title>
+    <title>Chillhouse - Stonks Meme Generator</title>
     <link rel="icon" href="data:image/svg+xml,<svg xmlns=%22http://www.w3.org/2000/svg%22 viewBox=%220 0 16 16%22><text y=%2214%22 font-size=%2216%22>📈</text></svg>">
     <style>
         :root {
@@ -247,11 +247,12 @@
     </style>
 </head>
 <body>
+    <script src="./config.js"></script>
     <div class="stonks-background"></div>
     
     <div class="container">
         <div class="header">
-            <h1>Stonks Meme Generator</h1>
+            <h1>Chillhouse Stonks Meme Generator</h1>
             <p>Transform your photo into the classic Stonks meme!</p>
     </div>
         
@@ -363,7 +364,7 @@
                     resultSection.style.display = 'none';
 
                 try {
-                    const response = await fetch('https://gigachad-mess.onrender.com/transform', {
+                    const response = await fetch(`${window.CHILLHOUSE_API_BASE}/transform`, {
                         method: 'POST',
                         body: formData
                     });
@@ -391,7 +392,7 @@
         async function pollForResult(imageId) {
             try {
                 console.log('Polling for result with imageId:', imageId);
-                const response = await fetch(`https://gigachad-mess.onrender.com/result/${imageId}`);
+                const response = await fetch(`${window.CHILLHOUSE_API_BASE}/result/${imageId}`);
                 
                 if (response.ok) {
                     const blob = await response.blob();
@@ -540,9 +541,9 @@
         }
         
         function downloadImage() {
-            if (currentImageId) {
+                if (currentImageId) {
                 const link = document.createElement('a');
-                link.href = `https://gigachad-mess.onrender.com/result/${currentImageId}`;
+                link.href = `${window.CHILLHOUSE_API_BASE}/result/${currentImageId}`;
                 link.download = `stonks-meme-${currentImageId}.png`;
                 link.click();
             }
