@@ -7,11 +7,11 @@
     <link rel="icon" href="data:image/svg+xml,<svg xmlns=%22http://www.w3.org/2000/svg%22 viewBox=%220 0 16 16%22><text y=%2214%22 font-size=%2216%22>🏠</text></svg>">
     <style>
         :root {
-            --primary-blue: #0066cc;
-            --accent-orange: #ff6600;
+            --primary-blue: #2a7cff; /* will be dynamically set from background */
+            --accent-orange: #ffa54d; /* will be dynamically set from background */
             --dark-bg: #1a1a1a;
             --light-text: #ffffff;
-            --text-color: #ffffff;
+            --text-color: #ffffff; /* auto-contrasted at runtime */
             --card-bg: rgba(0, 0, 0, 0.8);
             --card-border: rgba(255, 255, 255, 0.3);
         }
@@ -39,7 +39,7 @@
             width: 100%;
             height: 100%;
             z-index: -1;
-            background: rgba(0, 0, 0, 0.4);
+            background: rgba(0, 0, 0, 0.35);
         }
         
         .container {
@@ -255,7 +255,7 @@
             <h1>Make Your Own Chillhouse PFP</h1>
             <p>Create a custom Chillhouse profile picture from your image</p>
             <div style="margin-top: 10px;">
-                <a href="https://x.com/ChillHouseSOL" target="_blank" rel="noopener" style="color: var(--light-text); font-weight: 900; text-decoration: none; border: 2px solid var(--card-border); padding: 8px 12px; border-radius: 10px; background: rgba(0,0,0,0.4);">Follow on X</a>
+                <a href="https://x.com/ChillHouseSOL" target="_blank" rel="noopener" style="color: var(--light-text); font-weight: 900; text-decoration: none; border: 2px solid var(--card-border); padding: 8px 12px; border-radius: 10px; background: linear-gradient(45deg, var(--primary-blue), var(--accent-orange));">Follow on X</a>
             </div>
     </div>
         
@@ -365,13 +365,54 @@
         }
         
         function downloadImage() {
-                if (currentImageId) {
+            if (currentImageId) {
                 const link = document.createElement('a');
                 link.href = `${window.CHILLHOUSE_API_BASE}/result/${currentImageId}`;
                 link.download = `chillhouse-pfp-${currentImageId}.png`;
                 link.click();
             }
         }
+
+        // Dynamic theme from background image
+        (function applyDynamicTheme(){
+            try {
+                const img = new Image();
+                img.crossOrigin = 'anonymous';
+                img.src = './1irHeiVg_400x400.jpg';
+                img.onload = function() {
+                    const canvas = document.createElement('canvas');
+                    const ctx = canvas.getContext('2d');
+                    const w = 64, h = 64;
+                    canvas.width = w; canvas.height = h;
+                    ctx.drawImage(img, 0, 0, w, h);
+                    const data = ctx.getImageData(0, 0, w, h).data;
+                    let r=0,g=0,b=0,count=0;
+                    for (let i=0;i<data.length;i+=4){
+                        const R=data[i], G=data[i+1], B=data[i+2], A=data[i+3];
+                        if (A < 10) continue;
+                        r+=R; g+=G; b+=B; count++;
+                    }
+                    if (!count) return;
+                    r=Math.round(r/count); g=Math.round(g/count); b=Math.round(b/count);
+                    // Accent 2 = lightened
+                    function clamp(x){ return Math.max(0, Math.min(255, x)); }
+                    function lighten(c,amt){ return clamp(Math.round(c + (255-c)*amt)); }
+                    const r2=lighten(r,0.35), g2=lighten(g,0.35), b2=lighten(b,0.35);
+                    const primary = `rgb(${r}, ${g}, ${b})`;
+                    const accent = `rgb(${r2}, ${g2}, ${b2})`;
+                    // Contrast-aware text color
+                    const lum = 0.2126*(r/255) + 0.7152*(g/255) + 0.0722*(b/255);
+                    const text = lum < 0.55 ? '#ffffff' : '#111111';
+                    const root = document.documentElement;
+                    root.style.setProperty('--primary-blue', primary);
+                    root.style.setProperty('--accent-orange', accent);
+                    root.style.setProperty('--text-color', text);
+                    root.style.setProperty('--light-text', text);
+                    // Adjust card border to be derived from accent
+                    root.style.setProperty('--card-border', text === '#ffffff' ? 'rgba(255,255,255,0.35)' : 'rgba(0,0,0,0.35)');
+                };
+            } catch(e) { /* noop */ }
+        })();
     </script>
 </body>
 </html>
