@@ -31,7 +31,7 @@ const imageIdToBuffer = new Map();
 
 // Single global prompt (no per-style overrides)
 function buildPrompt() {
-  return process.env.SYSTEM_PROMPT || 'Transform the person into a bold, high-contrast meme style while preserving identity and pose.';
+  return process.env.SYSTEM_PROMPT || 'A highly detailed transformation of [character] into the Chillhouse meme style: an anthropomorphic cartoon house with a relaxed, chill expression, bulbous nose, simple eyes sometimes with glasses, house-shaped body with a sloped roof and chimney, wearing a casual gray sweater, blue jeans with hands casually in pockets, and black sneakers, standing in a laid-back pose, simple flat colors, meme art style, high contrast, vibrant background optional, no text.';
 }
 
 // OpenAI client (reuse same key)
