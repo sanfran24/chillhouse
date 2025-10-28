@@ -40,12 +40,13 @@ const openai = new OpenAI({ apiKey: process.env.OPENAI_API_KEY });
 // POST /transform -> returns { success, image_id }
 app.post('/transform', upload.single('image'), async (req, res) => {
   const style = req.body?.style;
+  // Check API key first so error is clear even if file is missing
+  if (!process.env.OPENAI_API_KEY) {
+    return res.status(500).json({ success: false, error: 'OPENAI_API_KEY not configured' });
+  }
   const file = req.file;
   if (!file) {
     return res.status(400).json({ success: false, error: 'Missing image upload' });
-  }
-  if (!process.env.OPENAI_API_KEY) {
-    return res.status(500).json({ success: false, error: 'OPENAI_API_KEY not configured' });
   }
 
   try {
