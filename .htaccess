@@ -1,0 +1,6 @@
+RewriteEngine On
+RewriteCond %{HTTPS} !=on
+RewriteRule ^ https://%{HTTP_HOST}%{REQUEST_URI} [L,R=301]
+
+# Send /bot to bot.html if present
+RewriteRule ^bot$ bot.html [L]
