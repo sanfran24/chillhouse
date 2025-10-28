@@ -1,0 +1,13 @@
+services:
+  - type: web
+    name: chillhouse
+    env: node
+    plan: free
+    buildCommand: npm install
+    startCommand: npm start
+    envVars:
+      - key: OPENAI_API_KEY
+        sync: false
+      - key: SYSTEM_PROMPT
+        value: Transform the person into a bold, high-contrast meme style while preserving identity and pose.
+
