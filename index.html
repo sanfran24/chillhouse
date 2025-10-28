@@ -266,19 +266,7 @@
                         </label>
                     </div>
                     
-                    <div class="style-selection">
-                        <h3>Select Style</h3>
-                        <div class="style-options">
-                            <div class="style-option selected">
-                            <input type="radio" id="style1" name="style" value="stonks-red" checked>
-                            <label for="style1">Stonks Red 📉</label>
-                        </div>
-                        <div class="style-option">
-                            <input type="radio" id="style2" name="style" value="stonks-green">
-                            <label for="style2">Stonks Green 📈</label>
-                            </div>
-                        </div>
-                    </div>
+                    
                     
                     <button type="submit" id="generateBtn" class="generate-btn">Transform My Photo!</button>
                 </form>
@@ -336,17 +324,7 @@
         let currentImageId = null;
         const stockTickers = ['NVDA', 'MSFT', 'AAPL', 'GOOGL', 'AMZN', 'META', 'AVGO', 'TSLA', 'TSM', 'BRK.B', 'WMT', 'JPM', 'ORCL', 'LLY', 'V', 'MA', 'XOM', 'NFLX', 'JNJ', 'PLTR', 'COST', 'ABBV', 'ASML', 'BABA', 'HD', 'BAC', 'AMD', 'PG', 'UNH', 'GE', 'SAP', 'CVX', 'KO', 'CSCO', 'WFC', 'TM', 'AZN', 'IBM', 'NVS', 'MS', 'TMUS', 'CRM', 'PM', 'AXP', 'CAT', 'RTX', 'NVO', 'GS', 'MU', 'HSBC'];
         
-        // Style selection handling
-        document.querySelectorAll('.style-option').forEach(option => {
-            option.addEventListener('click', function() {
-                // Remove selected class from all options
-                document.querySelectorAll('.style-option').forEach(opt => opt.classList.remove('selected'));
-                // Add selected class to clicked option
-                this.classList.add('selected');
-                // Check the radio button
-                this.querySelector('input[type="radio"]').checked = true;
-            });
-        });
+        
         
         // Form submission
         document.getElementById('transformForm').addEventListener('submit', async function(e) {
