@@ -5,7 +5,7 @@ import express from 'express';
 import multer from 'multer';
 import dotenv from 'dotenv';
 import { v4 as uuidv4 } from 'uuid';
-import OpenAI from 'openai';
+// Using REST images/edits via fetch + FormData (Node 18+)
 
 dotenv.config();
 
@@ -23,8 +23,10 @@ app.get('/health', (req, res) => {
   res.json({ ok: true });
 });
 
-// Multer storage to tmp files
-const upload = multer({ dest: path.join(__dirname, 'uploads_tmp') });
+// Ensure uploads directory exists and configure Multer
+const uploadsDir = path.join(__dirname, 'uploads_tmp');
+try { fs.mkdirSync(uploadsDir, { recursive: true }); } catch (_) {}
+const upload = multer({ dest: uploadsDir });
 
 // In-memory image store (id -> Buffer)
 const imageIdToBuffer = new Map();
@@ -33,9 +35,6 @@ const imageIdToBuffer = new Map();
 function buildPrompt() {
   return process.env.SYSTEM_PROMPT || 'A highly detailed transformation of [character] into the Chillhouse meme style: an anthropomorphic cartoon house with a relaxed, chill expression, bulbous nose, simple eyes sometimes with glasses, house-shaped body with a sloped roof and chimney, wearing a casual gray sweater, blue jeans with hands casually in pockets, and black sneakers, standing in a laid-back pose, simple flat colors, meme art style, high contrast, vibrant background optional, no text.';
 }
-
-// OpenAI client (reuse same key)
-const openai = new OpenAI({ apiKey: process.env.OPENAI_API_KEY });
 
 // POST /transform -> returns { success, image_id }
 app.post('/transform', upload.single('image'), async (req, res) => {
@@ -52,17 +51,34 @@ app.post('/transform', upload.single('image'), async (req, res) => {
   try {
     const prompt = buildPrompt();
 
-    // Use image-to-image (edits) with gpt-image-1
-    const response = await openai.images.edits({
-      model: 'gpt-image-1',
-      image: fs.createReadStream(file.path),
-      prompt,
-      size: '1024x1024'
+    // Use Images Edits REST endpoint with multipart form data
+    const form = new FormData();
+    // Build a Blob for Web FormData (Node 18+ fetch)
+    const fileBuffer = await fs.promises.readFile(file.path);
+    const blob = new Blob([fileBuffer], { type: file.mimetype || 'application/octet-stream' });
+    form.append('image', blob, file.originalname || 'image.png');
+    form.append('model', 'gpt-image-1');
+    form.append('prompt', prompt);
+    form.append('size', '1024x1024');
+
+    const response = await fetch('https://api.openai.com/v1/images/edits', {
+      method: 'POST',
+      headers: {
+        Authorization: `Bearer ${process.env.OPENAI_API_KEY}`
+        // Content-Type is set automatically by FormData boundary
+      },
+      body: form
     });
 
-    const b64 = response?.data?.[0]?.b64_json;
+    if (!response.ok) {
+      const errText = await response.text().catch(() => '');
+      throw new Error(`OpenAI error ${response.status}: ${errText}`);
+    }
+
+    const json = await response.json();
+    const b64 = json?.data?.[0]?.b64_json;
     if (!b64) {
-      throw new Error('No image returned from OpenAI');
+      throw new Error(`No image returned from OpenAI: ${JSON.stringify(json)}`);
     }
     const buffer = Buffer.from(b64, 'base64');
     const imageId = uuidv4();

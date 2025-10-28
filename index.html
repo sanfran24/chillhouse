@@ -3,8 +3,8 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Chillhouse - Stonks Meme Generator</title>
-    <link rel="icon" href="data:image/svg+xml,<svg xmlns=%22http://www.w3.org/2000/svg%22 viewBox=%220 0 16 16%22><text y=%2214%22 font-size=%2216%22>📈</text></svg>">
+    <title>Chillhouse - Make Your Own PFP</title>
+    <link rel="icon" href="data:image/svg+xml,<svg xmlns=%22http://www.w3.org/2000/svg%22 viewBox=%220 0 16 16%22><text y=%2214%22 font-size=%2216%22>🏠</text></svg>">
     <style>
         :root {
             --primary-blue: #0066cc;
@@ -23,7 +23,7 @@
         }
 
         body {
-            background: url('/Screenshot 2025-10-23 122100.png') center/cover no-repeat fixed;
+            background: url('./1irHeiVg_400x400.jpg') center/cover no-repeat fixed;
             font-family: 'Impact', 'Arial Black', 'Helvetica', sans-serif;
             font-weight: 900;
             letter-spacing: 1px;
@@ -252,12 +252,15 @@
     
     <div class="container">
         <div class="header">
-            <h1>Chillhouse Stonks Meme Generator</h1>
-            <p>Transform your photo into the classic Stonks meme!</p>
+            <h1>Make Your Own Chillhouse PFP</h1>
+            <p>Create a custom Chillhouse profile picture from your image</p>
+            <div style="margin-top: 10px;">
+                <a href="https://x.com/ChillHouseSOL" target="_blank" rel="noopener" style="color: var(--light-text); font-weight: 900; text-decoration: none; border: 2px solid var(--card-border); padding: 8px 12px; border-radius: 10px; background: rgba(0,0,0,0.4);">Follow on X</a>
+            </div>
     </div>
         
         <div class="upload-section">
-            <h2>Create Your Stonks Meme</h2>
+            <h2>Create Your Chillhouse PFP</h2>
                 <form id="transformForm" enctype="multipart/form-data">
                     <div class="file-input-wrapper">
                         <input type="file" id="imageInput" name="image" class="file-input" accept="image/*" required>
@@ -268,63 +271,26 @@
                     
                     
                     
-                    <button type="submit" id="generateBtn" class="generate-btn">Transform My Photo!</button>
+                    <button type="submit" id="generateBtn" class="generate-btn">Generate My PFP</button>
                 </form>
         </div>
                 
                 <div class="loading" id="loading">
                     <div class="spinner"></div>
-            <p>Generating your Stonks masterpiece...</p>
+            <p>Generating your Chillhouse PFP...</p>
             <p class="loading-time">⏱️ This may take 1-4 minutes via AI</p>
                 </div>
                 
                 <div class="result-section" id="resultSection" style="display: none;">
-            <h3>Your Stonks Meme is Ready!</h3>
+            <h3>Your Chillhouse PFP is Ready!</h3>
             <div style="position: relative; display: inline-block;">
-                <img id="resultImage" class="result-image" alt="Generated Stonks Meme">
-                <div id="tickerOverlay" style="position: absolute; top: 20px; left: 20px; background: transparent; color: white; padding: 10px; border-radius: 5px; font-weight: bold; font-size: 24px; display: none; cursor: move; user-select: none; resize: both; overflow: hidden; min-width: 60px; min-height: 30px; text-shadow: 2px 2px 4px rgba(0,0,0,0.8);"></div>
-            </div>
-            
-            <div style="margin-top: 20px;">
-                <h4>Add Stock Ticker:</h4>
-                
-                <!-- Custom ticker input -->
-                <div style="margin-bottom: 20px;">
-                    <input type="text" id="customTicker" placeholder="Enter custom ticker (e.g., YOURTICKER)" 
-                           style="padding: 10px; border: 2px solid var(--primary-blue); border-radius: 5px; font-size: 16px; width: 200px; margin-right: 10px;">
-                    <button onclick="addCustomTicker()" class="generate-btn" style="width: auto; padding: 10px 20px;">
-                        Add Custom Ticker
-                    </button>
-                </div>
-                
-                <div style="display: flex; gap: 20px; align-items: flex-start;">
-                    <div id="tickerButtons" style="display: flex; flex-wrap: wrap; gap: 10px; margin: 20px 0; max-width: 600px;">
-                        <!-- Ticker buttons will be added here -->
-                    </div>
-                    
-                    <!-- Size slider -->
-                    <div style="display: flex; flex-direction: column; align-items: center; margin-top: 20px;">
-                        <label style="color: var(--text-color); font-weight: bold; margin-bottom: 10px;">Text Size</label>
-                        <input type="range" id="textSizeSlider" min="12" max="72" value="24" 
-                               style="writing-mode: bt-lr; -webkit-appearance: slider-vertical; width: 20px; height: 200px; margin: 10px 0;">
-                        <div id="sizeDisplay" style="color: var(--text-color); font-size: 12px; margin-top: 10px;">24px</div>
-                    </div>
-                </div>
-                <button onclick="clearTicker()" class="generate-btn" style="width: auto; padding: 10px 20px; margin: 10px; background: #666;">
-                    Clear Ticker
-                </button>
-                <button onclick="downloadImage()" class="generate-btn" style="width: auto; padding: 10px 20px; margin: 10px;">
-                    Download Image
-                </button>
+                <img id="resultImage" class="result-image" alt="Generated Chillhouse PFP">
             </div>
         </div>
             </div>
 
     <script>
         let currentImageId = null;
-        const stockTickers = ['NVDA', 'MSFT', 'AAPL', 'GOOGL', 'AMZN', 'META', 'AVGO', 'TSLA', 'TSM', 'BRK.B', 'WMT', 'JPM', 'ORCL', 'LLY', 'V', 'MA', 'XOM', 'NFLX', 'JNJ', 'PLTR', 'COST', 'ABBV', 'ASML', 'BABA', 'HD', 'BAC', 'AMD', 'PG', 'UNH', 'GE', 'SAP', 'CVX', 'KO', 'CSCO', 'WFC', 'TM', 'AZN', 'IBM', 'NVS', 'MS', 'TMUS', 'CRM', 'PM', 'AXP', 'CAT', 'RTX', 'NVO', 'GS', 'MU', 'HSBC'];
-        
-        
         
         // Form submission
         document.getElementById('transformForm').addEventListener('submit', async function(e) {
@@ -380,12 +346,9 @@
                     document.getElementById('resultSection').style.display = 'block';
                     document.getElementById('loading').classList.remove('show');
                     
-                    // Create ticker buttons
-                    createTickerButtons();
-                    
                     // Reset button
                     document.getElementById('generateBtn').disabled = false;
-                    document.getElementById('generateBtn').textContent = 'Transform My Photo!';
+                    document.getElementById('generateBtn').textContent = 'Generate My PFP';
                 } else if (response.status === 202) {
                     // Still processing, wait and try again
                     setTimeout(() => pollForResult(imageId), 2000);
@@ -396,133 +359,16 @@
                 console.error('Error polling for result:', error);
                 alert('Error getting result: ' + error.message);
                 document.getElementById('generateBtn').disabled = false;
-                document.getElementById('generateBtn').textContent = 'Transform My Photo!';
+                document.getElementById('generateBtn').textContent = 'Generate My PFP';
                 document.getElementById('loading').classList.remove('show');
             }
-        }
-        
-        function createTickerButtons() {
-            const tickerContainer = document.getElementById('tickerButtons');
-            tickerContainer.innerHTML = '';
-
-            stockTickers.forEach(ticker => {
-                const button = document.createElement('button');
-                button.textContent = ticker;
-                button.className = 'generate-btn';
-                button.style.cssText = 'width: auto; padding: 8px 16px; margin: 5px; font-size: 14px; background: linear-gradient(45deg, var(--primary-blue), var(--accent-orange));';
-                button.onclick = () => addTickerToImage(ticker);
-                tickerContainer.appendChild(button);
-            });
-            
-            // Setup size slider
-            setupSizeSlider();
-        }
-        
-        function setupSizeSlider() {
-            const slider = document.getElementById('textSizeSlider');
-            const sizeDisplay = document.getElementById('sizeDisplay');
-            
-            slider.addEventListener('input', function() {
-                const size = this.value;
-                sizeDisplay.textContent = size + 'px';
-                
-                // Update ticker overlay if it exists
-                const overlay = document.getElementById('tickerOverlay');
-                if (overlay && overlay.style.display !== 'none') {
-                    overlay.style.fontSize = size + 'px';
-                }
-            });
-        }
-        
-        function addTickerToImage(ticker) {
-            const overlay = document.getElementById('tickerOverlay');
-            overlay.textContent = ticker;
-            overlay.style.display = 'block';
-            
-            // Make it draggable
-            makeDraggable(overlay);
-            
-            // Add resize observer to scale text with box size
-            addResizeObserver(overlay);
-        }
-        
-        function addCustomTicker() {
-            const customTickerInput = document.getElementById('customTicker');
-            const ticker = customTickerInput.value.trim().toUpperCase();
-            
-            if (ticker) {
-                addTickerToImage(ticker);
-                customTickerInput.value = ''; // Clear the input
-            } else {
-                alert('Please enter a ticker symbol');
-            }
-        }
-        
-        function makeDraggable(element) {
-            let isDragging = false;
-            let currentX;
-            let currentY;
-            let initialX;
-            let initialY;
-            let xOffset = 0;
-            let yOffset = 0;
-
-            element.addEventListener('mousedown', dragStart);
-            document.addEventListener('mousemove', drag);
-            document.addEventListener('mouseup', dragEnd);
-
-            function dragStart(e) {
-                initialX = e.clientX - xOffset;
-                initialY = e.clientY - yOffset;
-
-                if (e.target === element) {
-                    isDragging = true;
-                }
-            }
-
-            function drag(e) {
-                if (isDragging) {
-                    e.preventDefault();
-                    currentX = e.clientX - initialX;
-                    currentY = e.clientY - initialY;
-
-                    xOffset = currentX;
-                    yOffset = currentY;
-
-                    element.style.transform = `translate3d(${currentX}px, ${currentY}px, 0)`;
-                }
-            }
-
-            function dragEnd(e) {
-                initialX = currentX;
-                initialY = currentY;
-                isDragging = false;
-            }
-        }
-        
-        function addResizeObserver(element) {
-            const resizeObserver = new ResizeObserver(entries => {
-                for (let entry of entries) {
-                    const { width, height } = entry.contentRect;
-                    // Scale font size based on box size (minimum 12px, maximum 72px)
-                    const fontSize = Math.max(12, Math.min(72, Math.min(width, height) * 0.4));
-                    element.style.fontSize = fontSize + 'px';
-                }
-            });
-            resizeObserver.observe(element);
-        }
-        
-        function clearTicker() {
-            const overlay = document.getElementById('tickerOverlay');
-            overlay.style.display = 'none';
-            overlay.textContent = '';
         }
         
         function downloadImage() {
                 if (currentImageId) {
                 const link = document.createElement('a');
                 link.href = `${window.CHILLHOUSE_API_BASE}/result/${currentImageId}`;
-                link.download = `stonks-meme-${currentImageId}.png`;
+                link.download = `chillhouse-pfp-${currentImageId}.png`;
                 link.click();
             }
         }
