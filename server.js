@@ -29,20 +29,9 @@ const upload = multer({ dest: path.join(__dirname, 'uploads_tmp') });
 // In-memory image store (id -> Buffer)
 const imageIdToBuffer = new Map();
 
-// Style -> prompt fragments
-function buildPrompt(style) {
-  const base = process.env.SYSTEM_PROMPT || 'Transform the person into a bold, high-contrast meme style while preserving identity and pose.';
-  const byStyle = {
-    'stonks-red': 'Apply the classic red "stonks down" chart vibe with red-tinted lighting and bold meme aesthetics. Add subtle red arrows or chart elements in the background.',
-    'stonks-green': 'Apply the classic green "stonks up" chart vibe with green-tinted lighting and bold meme aesthetics. Add subtle green arrows or chart elements in the background.',
-    'og-gigachad': 'Gigachad look: pronounced jawline, high contrast lighting, grayscale with subtle tint, while preserving the person.',
-    'mog-chad': 'Mog Chad look: exaggerated masculine features with clean, crisp shading and dramatic lighting.',
-    'cartoon-gigachad': 'Cartoon Gigachad: stylized, thick outlines, vibrant colors, playful but still powerful look.',
-    'troll-gigachad': 'Troll Gigachad: mischievous expression, high-contrast shadows, subtle meme vibes.',
-    'brainrot-gigachad': 'Brainrot Gigachad: absurd, over-the-top meme styling with neon accents.'
-  };
-  const extra = byStyle[style] || 'High-quality meme render, consistent with the selected vibe.';
-  return `${base}\n${extra}`;
+// Single global prompt (no per-style overrides)
+function buildPrompt() {
+  return process.env.SYSTEM_PROMPT || 'Transform the person into a bold, high-contrast meme style while preserving identity and pose.';
 }
 
 // OpenAI client (reuse same key)
@@ -60,7 +49,7 @@ app.post('/transform', upload.single('image'), async (req, res) => {
   }
 
   try {
-    const prompt = buildPrompt(style);
+    const prompt = buildPrompt();
 
     // Use image-to-image (edits) with gpt-image-1
     const response = await openai.images.edits({
